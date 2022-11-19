@@ -1,4 +1,4 @@
-local TetraBobo = {}
+local Tetrabobo = {}
 local Formatters = require 'formatters'
 
 -- first, we'll collect all of our commands into norns-friendly ranges
@@ -42,14 +42,14 @@ local specs = {
 local param_names = {"firstpitch","firstform","firstwidth","firstphase","firstamp","firstpan","secondpitch","secondform","secondwidth","secondphase","secondamp","secondpan","thirdpitch","thirdform","thirdwidth","thirdphase","thirdamp","thirdpan","fourthpitch","fourthform","fourthwidth","fourthphase","fourthamp","fourthpan","chaos","firstattack","secondattack","thirdattack","fourthattack","firstrelease","secondrelease","thirdrelease","fourthrelease"}
 
 -- initialize parameters:
-function TetraBobo.add_params()
-  params:add_group("TetraBobo",#param_names)
+function Tetrabobo.add_params()
+  params:add_group("Tetrabobo",#param_names)
 
   for i = 1,#param_names do
     local p_name = param_names[i]
     params:add{
       type = "control",
-      id = "TetraBobo_"..p_name,
+      id = "Tetrabobo_"..p_name,
       name = p_name,
       controlspec = specs[p_name],
       formatter = p_name == ("firstpan" or "secondpan" or "thirdpan" or "fourthpan") and Formatters.bipolar_as_pan_widget or nil,
@@ -62,29 +62,29 @@ function TetraBobo.add_params()
 end
 
 -- a single-purpose triggering command fire a note
-function TetraBobo.firstbartrig(hz)
+function Tetrabobo.firstbartrig(hz)
   if hz ~= nil then
     engine.firstbartrig(hz)
   end
 end
 
-function TetraBobo.secondbartrig(hz)
+function Tetrabobo.secondbartrig(hz)
   if hz ~= nil then
     engine.secondbartrig(hz)
   end
 end
 
-function TetraBobo.thirdbartrig(hz)
+function Tetrabobo.thirdbartrig(hz)
   if hz ~= nil then
     engine.thirdbartrig(hz)
   end
 end
 
-function TetraBobo.fourthbartrig(hz)
+function Tetrabobo.fourthbartrig(hz)
   if hz ~= nil then
     engine.fourthbartrig(hz)
   end
 end
 
  -- we return these engine-specific Lua functions back to the host script:
-return TetraBobo
+return Tetrabobo
