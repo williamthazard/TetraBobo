@@ -52,7 +52,7 @@ function Tetrabobo.add_params()
       id = "Tetrabobo_"..p_name,
       name = p_name,
       controlspec = specs[p_name],
-      formatter = p_name == "pan" and Formatters.bipolar_as_pan_widget or nil,
+      formatter = util.string_starts(p_name,"pan") and Formatters.bipolar_as_pan_widget or nil,
       -- every time a parameter changes, we'll send it to the SuperCollider engine:
       action = function(x) engine[p_name](x) end
     }
