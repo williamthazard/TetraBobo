@@ -32,21 +32,21 @@ end
 function shnth.bar(n, d)
   if d > 0.2 then
       if n==1 then
-        params:set('Tetrabobo_firstattack',util.linlin(-2,2,0.03,4,d))
-        params:set('Tetrabobo_firstrelease',util.linlin(-2,2,0.03,4,d))
-        Tetrabobo.firstbartrig(params:get(Tetrabobo_firstpitch))
+        params:set('Tetrabobo_firstattack',util.linlin(-1,1,0.03,4,d))
+        params:set('Tetrabobo_firstrelease',util.linlin(-1,1,0.03,4,d))
+        Tetrabobo.firstbartrig(params:get('Tetrabobo_firstpitch'))
       elseif n==2 then
-        params:set('Tetrabobo_secondattack',util.linlin(-2,2,0.03,4,d))
-        params:set('Tetrabobo_secondrelease',util.linlin(-2,2,0.03,4,d))
-        Tetrabobo.secondbartrig(params:get(Tetrabobo_secondpitch))
+        params:set('Tetrabobo_secondattack',util.linlin(-1,1,0.03,4,d))
+        params:set('Tetrabobo_secondrelease',util.linlin(-1,1,0.03,4,d))
+        Tetrabobo.secondbartrig(params:get('Tetrabobo_secondpitch'))
       elseif n==3 then
-        params:set('Tetrabobo_thirdattack',util.linlin(-2,2,0.03,4,d))
-        params:set('Tetrabobo_thirdrelease',util.linlin(-2,2,0.03,4,d))
-        Tetrabobo.thirdbartrig(params:get(Tetrabobo_thirdpitch))
+        params:set('Tetrabobo_thirdattack',util.linlin(-1,1,0.03,4,d))
+        params:set('Tetrabobo_thirdrelease',util.linlin(-1,1,0.03,4,d))
+        Tetrabobo.thirdbartrig(params:get('Tetrabobo_thirdpitch'))
       elseif n==4 then
-        params:set('Tetrabobo_fourthattack',util.linlin(-2,2,0.03,4,d))
-        params:set('Tetrabobo_fourthrelease',util.linlin(-2,2,0.03,4,d))
-        Tetrabobo.fourthbartrig(params:get(Tetrabobo_fourthpitch))
+        params:set('Tetrabobo_fourthattack',util.linlin(-1,1,0.03,4,d))
+        params:set('Tetrabobo_fourthrelease',util.linlin(-1,1,0.03,4,d))
+        Tetrabobo.fourthbartrig(params:get('Tetrabobo_fourthpitch'))
     end
   end
 end
