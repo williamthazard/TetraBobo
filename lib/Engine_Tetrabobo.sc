@@ -11,8 +11,6 @@ Engine_Tetrabobo : CroneEngine {
 	var thirdfmbus;
 	var fourthfmbus;
 	var endOfChain;
-	var free;
-	var chaos;
 
 	alloc{
 
@@ -26,12 +24,12 @@ thirdfmbus = Bus.audio;
 
 fourthfmbus = Bus.audio;
 
-chaos = 0;
-
 SynthDef("ColorLimiter",
 		{arg input;
 			Out.ar(
-				context.out_b, In.ar(input).tanh.dup);
+				0,
+				In.ar(input).tanh.dup;
+				);
 		}).add;
 
 		endOfChain = Synth.new("ColorLimiter",[\input,outBus]);
@@ -60,7 +58,7 @@ SynthDef("barone",
 
 			var first_signal = Pan2.ar(
 					SineShaper.ar(
-						FormantTriPTR(firstpitch + (
+						FormantTriPTR.ar(firstpitch + (
 							chaos * In.ar(fourthfmbus)),
 						firstform,
 						firstwidth,
@@ -102,7 +100,7 @@ SynthDef("bartwo",
 
 			var second_signal = Pan2.ar(
 					SineShaper.ar(
-						FormantTriPTR(secondpitch + (
+						FormantTriPTR.ar(secondpitch + (
 							chaos * In.ar(firstfmbus)),
 						secondform,
 						secondwidth,
@@ -144,7 +142,7 @@ SynthDef("barthree",
 
 			var third_signal = Pan2.ar(
 					SineShaper.ar(
-						FormantTriPTR(thirdpitch + (
+						FormantTriPTR.ar(thirdpitch + (
 							chaos * In.ar(secondfmbus)),
 						thirdform,
 						thirdwidth,
@@ -186,7 +184,7 @@ SynthDef("barfour",
 
 			var fourth_signal = Pan2.ar(
 					SineShaper.ar(
-						FormantTriPTR(fourthpitch + (
+						FormantTriPTR.ar(fourthpitch + (
 							chaos * In.ar(thirdfmbus)),
 						fourthform,
 						fourthwidth,
