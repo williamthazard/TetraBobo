@@ -5,147 +5,205 @@ Engine_Tetrabobo : CroneEngine {
 	var secondbar;
 	var thirdbar;
 	var fourthbar;
+	var outBus;
+	var firstfmbus;
+	var secondfmbus;
+	var thirdfmbus;
+	var fourthfmbus;
+	var endOfChain;
+	var free;
+	var chaos;
 
 	alloc{
 
-SynthDef("barone",
-		{   arg firstpitch = 440,
-			fourthpitch = 440,
-			firstwidth = 0.75,
-			fourthwidth = 0.75,
-			firstform = 440,
-			fourthform = 440,
-			firstphase = 0,
-			fourthphase = 0,
-			chaos = 0,
-			firstattack = 0,
-			firstrelease = 0,
-			firstamp = 0.2,
-			firstpan = 0;
+outBus = Bus.audio;
 
-			var firstbar_env = Env.perc(attackTime: firstattack, releaseTime: firstrelease, level: firstamp).kr(doneAction:2);
+firstfmbus = Bus.audio;
+
+secondfmbus = Bus.audio;
+
+thirdfmbus = Bus.audio;
+
+fourthfmbus = Bus.audio;
+
+chaos = 0;
+
+SynthDef("ColorLimiter",
+		{arg input;
+			Out.ar(
+				context.out_b, In.ar(input).tanh.dup);
+		}).add;
+
+		endOfChain = Synth.new("ColorLimiter",[\input,outBus]);
+
+		NodeWatcher.register(endOfChain);
+
+SynthDef("barone",
+		{   arg out,
+			firstfmbus,
+			fourthfmbus,
+			chaos,
+			firstpitch = 440,
+			firstwidth = 0.75,
+			firstform = 440,
+			firstphase = 0,
+			firstattack = 0.3,
+			firstrelease = 1,
+			firstamp = 0.2,
+			panone = 0;
+
+			var firstbar_env = Env.perc(
+					attackTime: firstattack,
+					releaseTime: firstrelease,
+					level: firstamp
+				).kr(doneAction:2);
+
 			var first_signal = Pan2.ar(
 					SineShaper.ar(
 						FormantTriPTR(firstpitch + (
-							chaos * FormantTriPTR(
-							fourthpitch,
-							fourthform,
-							fourthwidth,
-							fourthphase)),
+							chaos * In.ar(fourthfmbus)),
 						firstform,
 						firstwidth,
-						firstphase),mul: firstbar_env),
-					firstpan);
+						firstphase),
+						mul: firstbar_env),
+					panone);
 
 				Out.ar(
-					0,
+					out,
+					first_signal;
+				);
+
+				Out.ar(
+					firstfmbus,
 					first_signal;
 				)
+
 		}).add;
 
 SynthDef("bartwo",
-		{   arg secondpitch = 440,
-			firstpitch = 440,
+		{   arg out,
+			firstfmbus,
+			secondfmbus,
+			chaos,
+			secondpitch = 440,
 			secondwidth = 0.75,
-			firstwidth = 0.75,
 			secondform = 440,
-			firstform = 440,
 			secondphase = 0,
-			firstphase = 0,
-			chaos = 0,
-			secondattack = 0,
-			secondrelease = 0,
+			secondattack = 0.3,
+			secondrelease = 1,
 			secondamp = 0.2,
-			secondpan = 0;
+			pantwo = 0;
 
-			var secondbar_env = Env.perc(attackTime: secondattack, releaseTime: secondrelease, level: secondamp).kr(doneAction:2);
+			var secondbar_env = Env.perc(
+					attackTime: secondattack,
+					releaseTime: secondrelease,
+					level: secondamp
+				).kr(doneAction:2);
+
 			var second_signal = Pan2.ar(
 					SineShaper.ar(
 						FormantTriPTR(secondpitch + (
-							chaos * FormantTriPTR(
-							firstpitch,
-							firstform,
-							firstwidth,
-							firstphase)),
+							chaos * In.ar(firstfmbus)),
 						secondform,
 						secondwidth,
-						secondphase),mul: secondbar_env),
-					secondpan);
+						secondphase),
+						mul: secondbar_env),
+					pantwo);
 
 				Out.ar(
-					0,
+					out,
+					second_signal;
+				);
+
+				Out.ar(
+					secondfmbus,
 					second_signal;
 				)
+
 		}).add;
 
 SynthDef("barthree",
-		{   arg thirdpitch = 440,
-			secondpitch = 440,
+		{   arg out,
+			secondfmbus,
+			thirdfmbus,
+			chaos,
+			thirdpitch = 440,
 			thirdwidth = 0.75,
-			secondwidth = 0.75,
 			thirdform = 440,
-			secondform = 440,
 			thirdphase = 0,
-			secondphase = 0,
-			chaos = 0,
-			thirdattack = 0,
-			thirdrelease = 0,
+			thirdattack = 0.3,
+			thirdrelease = 1,
 			thirdamp = 0.2,
-			thirdpan = 0;
+			panthree = 0;
 
-			var thirdbar_env = Env.perc(attackTime: thirdattack, releaseTime: thirdrelease, level: thirdamp).kr(doneAction:2);
+			var thirdbar_env = Env.perc(
+					attackTime: thirdattack,
+					releaseTime: thirdrelease,
+					level: thirdamp
+				).kr(doneAction:2);
+
 			var third_signal = Pan2.ar(
 					SineShaper.ar(
 						FormantTriPTR(thirdpitch + (
-							chaos * FormantTriPTR(
-							secondpitch,
-							secondform,
-							secondwidth,
-							secondphase)),
+							chaos * In.ar(secondfmbus)),
 						thirdform,
 						thirdwidth,
-						thirdphase),mul: thirdbar_env),
-					thirdpan);
+						thirdphase),
+						mul: thirdbar_env),
+					panthree);
 
 				Out.ar(
-					0,
+					out,
+					third_signal;
+				);
+
+				Out.ar(
+					thirdfmbus,
 					third_signal;
 				)
+
 		}).add;
 
 SynthDef("barfour",
-		{   arg fourthpitch = 440,
-			thirdpitch = 440,
+		{   arg out,
+			thirdfmbus,
+			fourthfmbus,
+			chaos,
+			fourthpitch = 440,
 			fourthwidth = 0.75,
-			thirdwidth = 0.75,
 			fourthform = 440,
-			thirdform = 440,
 			fourthphase = 0,
-			thirdphase = 0,
-			chaos = 0,
-			fourthattack = 0,
-			fourthrelease = 0,
+			fourthattack = 0.3,
+			fourthrelease = 1,
 			fourthamp = 0.2,
-			fourthpan = 0;
+			panfour = 0;
 
-			var fourthbar_env = Env.perc(attackTime: fourthattack, releaseTime: fourthrelease, level: fourthamp).kr(doneAction:2);
+			var fourthbar_env = Env.perc(
+					attackTime: fourthattack,
+					releaseTime: fourthrelease,
+					level: fourthamp
+				).kr(doneAction:2);
+
 			var fourth_signal = Pan2.ar(
 					SineShaper.ar(
 						FormantTriPTR(fourthpitch + (
-							chaos * FormantTriPTR(
-							thirdpitch,
-							thirdform,
-							thirdwidth,
-							thirdphase)),
+							chaos * In.ar(thirdfmbus)),
 						fourthform,
 						fourthwidth,
-						fourthphase),mul: fourthbar_env),
-					fourthpan);
+						fourthphase),
+						mul: fourthbar_env),
+					panfour);
 
 				Out.ar(
-					0,
+					out,
+					fourth_signal;
+				);
+
+				Out.ar(
+					fourthfmbus,
 					fourth_signal;
 				)
+
 		}).add;
 
 		params = Dictionary.newFrom([
@@ -154,33 +212,33 @@ SynthDef("barfour",
 			\firstwidth, 0.75,
 			\firstphase, 0,
 			\firstamp, 0.2,
-			\firstpan, 0,
-			\firstattack, 0,
-			\firstrelease, 0.5,
+			\panone, 0,
+			\firstattack, 0.3,
+			\firstrelease, 1,
 			\secondpitch, 440,
 			\secondform, 440,
 			\secondwidth, 0.75,
 			\secondphase, 0,
 			\secondamp, 0.2,
-			\secondpan, 0,
-			\secondattack, 0,
-			\secondrelease, 0.5,
+			\pantwo, 0,
+			\secondattack, 0.3,
+			\secondrelease, 1,
 			\thirdpitch, 440,
 			\thirdform, 440,
 			\thirdwidth, 0.75,
 			\thirdphase, 0,
 			\thirdamp, 0.2,
-			\thirdpan, 0,
-			\thirdattack, 0,
-			\thirdrelease, 0.5,
+			\panthree, 0,
+			\thirdattack, 0.3,
+			\thirdrelease, 1,
 			\fourthpitch, 440,
 			\fourthform, 440,
 			\fourthwidth, 0.75,
 			\fourthphase, 0,
 			\fourthamp, 0.2,
-			\fourthpan, 0,
-			\fourthattack, 0,
-			\fourthrelease, 0.5,
+			\panfour, 0,
+			\fourthattack, 0.3,
+			\fourthrelease, 1,
 			\chaos, 0
 		]);
 
@@ -191,19 +249,51 @@ SynthDef("barfour",
 		});
 
 		this.addCommand("firstbartrig", "f", { arg msg;
-			firstbar = Synth.new("barone", [\firstpitch, msg[1]] ++ params.getPairs)
+			firstbar = Synth.before(
+				endOfChain,
+				"barone",
+				[\out,outBus,
+				\firstfmbus,firstfmbus,
+				\fourthfmbus,fourthfmbus,
+				\firstpitch,msg[1]]
+				++ params.getPairs)
 		});
 
 		this.addCommand("secondbartrig", "f", { arg msg;
-			secondbar = Synth.new("bartwo", [\secondpitch, msg[1]] ++ params.getPairs)
+			secondbar = Synth.before(
+				endOfChain,
+				"bartwo",
+				[\out,outBus,
+				\firstfmbus,firstfmbus,
+				\secondfmbus,secondfmbus,
+				\secondpitch, msg[1]]
+				++ params.getPairs)
 		});
 
 		this.addCommand("thirdbartrig", "f", { arg msg;
-			thirdbar = Synth.new("barthree", [\thirdpitch, msg[1]] ++ params.getPairs)
+			thirdbar = Synth.before(
+				endOfChain,
+				"barthree",
+				[\out,outBus,
+				\secondfmbus,secondfmbus,
+				\thirdfmbus,thirdfmbus,
+				\thirdpitch, msg[1]]
+				++ params.getPairs)
 		});
 
 		this.addCommand("fourthbartrig", "f", { arg msg;
-			fourthbar = Synth.new("barfour", [\fourthpitch, msg[1]] ++ params.getPairs)
+			fourthbar = Synth.before(
+				endOfChain,
+				"barfour",
+				[\out,outBus,
+				\thirdfmbus,thirdfmbus,
+				\fourthfmbus,fourthfmbus,
+				\fourthpitch, msg[1]]
+				++ params.getPairs)
 		});
 	}
+			free {
+			endOfChain.free;
+			outBus.free;
+		}
 }
