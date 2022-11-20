@@ -295,5 +295,9 @@ SynthDef("barfour",
 			free {
 			endOfChain.free;
 			outBus.free;
+		    firstfmbus.free;
+		    secondfmbus.free;
+		    thirdfmbus.free;
+		    fourthfmbus.free;
 		}
 }
