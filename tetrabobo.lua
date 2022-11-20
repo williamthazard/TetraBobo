@@ -25,26 +25,27 @@ function init()
   restart_message = UI.Message.new{"please restart norns"}
   if needs_restart then redraw() return end
   Tetrabobo.add_params() -- adds params via the `.add params()` function defined in TetraBobo_engine.lua
+  params:bang()
   print("tetrabobo")
 end
 
 function shnth.bar(n, d)
   if d > 0.2 then
       if n==1 then
-        params:set('Tetrabobo_firstattack',util.linlin(-2,2,0,4,d))
-        params:set('Tetrabobo_firstrelease',util.linlin(-2,2,0,4,d))
+        params:set('Tetrabobo_firstattack',util.linlin(-2,2,0.03,4,d))
+        params:set('Tetrabobo_firstrelease',util.linlin(-2,2,0.03,4,d))
         Tetrabobo.firstbartrig(params:get(Tetrabobo_firstpitch))
       elseif n==2 then
-        params:set('Tetrabobo_secondattack',util.linlin(-2,2,0,4,d))
-        params:set('Tetrabobo_secondrelease',util.linlin(-2,2,0,4,d))
+        params:set('Tetrabobo_secondattack',util.linlin(-2,2,0.03,4,d))
+        params:set('Tetrabobo_secondrelease',util.linlin(-2,2,0.03,4,d))
         Tetrabobo.secondbartrig(params:get(Tetrabobo_secondpitch))
       elseif n==3 then
-        params:set('Tetrabobo_thirdattack',util.linlin(-2,2,0,4,d))
-        params:set('Tetrabobo_thirdrelease',util.linlin(-2,2,0,4,d))
+        params:set('Tetrabobo_thirdattack',util.linlin(-2,2,0.03,4,d))
+        params:set('Tetrabobo_thirdrelease',util.linlin(-2,2,0.03,4,d))
         Tetrabobo.thirdbartrig(params:get(Tetrabobo_thirdpitch))
       elseif n==4 then
-        params:set('Tetrabobo_fourthattack',util.linlin(-2,2,0,4,d))
-        params:set('Tetrabobo_fourthrelease',util.linlin(-2,2,0,4,d))
+        params:set('Tetrabobo_fourthattack',util.linlin(-2,2,0.03,4,d))
+        params:set('Tetrabobo_fourthrelease',util.linlin(-2,2,0.03,4,d))
         Tetrabobo.fourthbartrig(params:get(Tetrabobo_fourthpitch))
     end
   end
