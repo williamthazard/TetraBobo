@@ -35,7 +35,7 @@ local specs = {
   ["firstrelease"] = controlspec.new(0.003, 3, "exp", 0, 0.003, "s"),
   ["secondrelease"] = controlspec.new(0.003, 3, "exp", 0, 0.003, "s"),
   ["thirdrelease"] = controlspec.new(0.003, 3, "exp", 0, 0.003, "s"),
-  ["fourthrelease"] = controlspec.new(0.003, 3, "exp", 0, 0.003, "s"),
+  ["fourthrelease"] = controlspec.new(0.003, 3, "exp", 0, 0.003, "s")
 }
 
 -- this table establishes an order for parameter initialization:
