@@ -13,6 +13,16 @@ Engine_Tetrabobo : CroneEngine {
 	var endOfChain;
 
 	alloc{
+	
+SynthDef("ColorLimiter",
+		{arg input;
+			Out.ar(
+				0,
+				In.ar(input).dup;
+			);
+		}).add;
+		
+Server.default.sync;
 
 outBus = Bus.audio;
 
@@ -24,17 +34,9 @@ thirdfmbus = Bus.audio;
 
 fourthfmbus = Bus.audio;
 
-SynthDef("ColorLimiter",
-		{arg input;
-			Out.ar(
-				0,
-				In.ar(input).tanh.dup;
-				);
-		}).add;
+endOfChain = Synth.new("ColorLimiter",[\input,outBus]);
 
-		endOfChain = Synth.new("ColorLimiter",[\input,outBus]);
-
-		NodeWatcher.register(endOfChain);
+NodeWatcher.register(endOfChain);
 
 SynthDef("barone",
 		{   arg out,
