@@ -42,26 +42,25 @@ SynthDef("barone",
 		{   arg out,
 			firstfmbus,
 			fourthfmbus,
-			chaos,
+			firstchaos = 0,
 			firstpitch = 440,
 			firstwidth = 0.75,
 			firstform = 440,
 			firstphase = 0,
 			firstattack = 0.3,
 			firstrelease = 1,
-			firstamp = 0.2,
 			panone = 0;
 
 			var firstbar_env = Env.perc(
 					attackTime: firstattack,
 					releaseTime: firstrelease,
-					level: firstamp
+					level: 0.01
 				).kr(doneAction:2);
 
 			var first_signal = Pan2.ar(
 					SineShaper.ar(
 						FormantTriPTR.ar(firstpitch + (
-							chaos * In.ar(fourthfmbus)),
+							firstchaos * In.ar(fourthfmbus)),
 						firstform,
 						firstwidth,
 						firstphase),
@@ -84,26 +83,25 @@ SynthDef("bartwo",
 		{   arg out,
 			firstfmbus,
 			secondfmbus,
-			chaos,
+			secondchaos = 0,
 			secondpitch = 440,
 			secondwidth = 0.75,
 			secondform = 440,
 			secondphase = 0,
 			secondattack = 0.3,
 			secondrelease = 1,
-			secondamp = 0.2,
 			pantwo = 0;
 
 			var secondbar_env = Env.perc(
 					attackTime: secondattack,
 					releaseTime: secondrelease,
-					level: secondamp
+					level: 0.01
 				).kr(doneAction:2);
 
 			var second_signal = Pan2.ar(
 					SineShaper.ar(
 						FormantTriPTR.ar(secondpitch + (
-							chaos * In.ar(firstfmbus)),
+							secondchaos * In.ar(firstfmbus)),
 						secondform,
 						secondwidth,
 						secondphase),
@@ -126,26 +124,25 @@ SynthDef("barthree",
 		{   arg out,
 			secondfmbus,
 			thirdfmbus,
-			chaos,
+			thirdchaos = 0,
 			thirdpitch = 440,
 			thirdwidth = 0.75,
 			thirdform = 440,
 			thirdphase = 0,
 			thirdattack = 0.3,
 			thirdrelease = 1,
-			thirdamp = 0.2,
 			panthree = 0;
 
 			var thirdbar_env = Env.perc(
 					attackTime: thirdattack,
 					releaseTime: thirdrelease,
-					level: thirdamp
+					level: 0.01
 				).kr(doneAction:2);
 
 			var third_signal = Pan2.ar(
 					SineShaper.ar(
 						FormantTriPTR.ar(thirdpitch + (
-							chaos * In.ar(secondfmbus)),
+							thirdchaos * In.ar(secondfmbus)),
 						thirdform,
 						thirdwidth,
 						thirdphase),
@@ -168,26 +165,25 @@ SynthDef("barfour",
 		{   arg out,
 			thirdfmbus,
 			fourthfmbus,
-			chaos,
+			fourthchaos = 0,
 			fourthpitch = 440,
 			fourthwidth = 0.75,
 			fourthform = 440,
 			fourthphase = 0,
 			fourthattack = 0.3,
 			fourthrelease = 1,
-			fourthamp = 0.2,
 			panfour = 0;
 
 			var fourthbar_env = Env.perc(
 					attackTime: fourthattack,
 					releaseTime: fourthrelease,
-					level: fourthamp
+					level: 0.01
 				).kr(doneAction:2);
 
 			var fourth_signal = Pan2.ar(
 					SineShaper.ar(
 						FormantTriPTR.ar(fourthpitch + (
-							chaos * In.ar(thirdfmbus)),
+							fourthchaos * In.ar(thirdfmbus)),
 						fourthform,
 						fourthwidth,
 						fourthphase),
@@ -211,7 +207,6 @@ SynthDef("barfour",
 			\firstform, 440,
 			\firstwidth, 0.75,
 			\firstphase, 0,
-			\firstamp, 0.2,
 			\panone, 0,
 			\firstattack, 0.3,
 			\firstrelease, 1,
@@ -219,7 +214,6 @@ SynthDef("barfour",
 			\secondform, 440,
 			\secondwidth, 0.75,
 			\secondphase, 0,
-			\secondamp, 0.2,
 			\pantwo, 0,
 			\secondattack, 0.3,
 			\secondrelease, 1,
@@ -227,7 +221,6 @@ SynthDef("barfour",
 			\thirdform, 440,
 			\thirdwidth, 0.75,
 			\thirdphase, 0,
-			\thirdamp, 0.2,
 			\panthree, 0,
 			\thirdattack, 0.3,
 			\thirdrelease, 1,
@@ -235,11 +228,13 @@ SynthDef("barfour",
 			\fourthform, 440,
 			\fourthwidth, 0.75,
 			\fourthphase, 0,
-			\fourthamp, 0.2,
 			\panfour, 0,
 			\fourthattack, 0.3,
 			\fourthrelease, 1,
-			\chaos, 0
+			\firstchaos, 0,
+			\secondchaos, 0,
+			\thirdchaos, 0,
+			\fourthchaos, 0
 		]);
 
 		params.keysDo({ arg key;
