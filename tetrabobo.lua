@@ -24,7 +24,7 @@ function init()
   needs_restart = false
   local formanttri_files = {"FormantTriPTR.sc", "FormantTriPTR_scsynth.so"}
   for _,file in pairs(formanttri_files) do
-  if not util.file_exists(extensions .. "/FormantTriPTR/" .. file) then
+    if not util.file_exists(extensions .. "/FormantTriPTR/" .. file) then
       util.os_capture("mkdir " .. extensions .. "/FormantTriPTR")
       util.os_capture("cp " .. norns.state.path .. "/ignore/" .. file .. " " .. extensions .. "/FormantTriPTR/" .. file)
       print("installed " .. file)
