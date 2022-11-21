@@ -1,8 +1,6 @@
 ---TetraBobo
 
-local extensions = "/home/we/.local/share/SuperCollider/Extensions"
-engine.name = util.file_exists(extensions .. "/FormantTriPTR/FormantTriPTR.sc") and 'Tetrabobo' or nil
-UI = require "ui"
+engine.name = 'Tetrabobo'
 Tetrabobo = include('lib/Tetrabobo_engine')
 sh = hid.connect(1)
 if sh.device then
@@ -21,19 +19,9 @@ fourthdoubling = false
 fourthhalving = false
 
 function init()
-  needs_restart = false
-  local formanttri_files = {"FormantTriPTR.sc", "FormantTriPTR_scsynth.so"}
-  for _,file in pairs(formanttri_files) do
-    if not util.file_exists(extensions .. "/FormantTriPTR/" .. file) then
-      util.os_capture("mkdir " .. extensions .. "/FormantTriPTR")
-      util.os_capture("cp " .. norns.state.path .. "/ignore/" .. file .. " " .. extensions .. "/FormantTriPTR/" .. file)
-      print("installed " .. file)
-      needs_restart = true
-    end
-  end
-  restart_message = UI.Message.new{"please restart norns"}
-  if needs_restart then redraw() return end
   Tetrabobo.add_params() -- adds params via the `.add params()` function defined in TetraBobo_engine.lua
+  params:add_control('master chaos','master chaos',controlspec.new(-24,24,'lin',1,0,''))
+  params:set_action('master chaos',function(x) params:set('Tetrabobo_firstchaos',x) params:set('Tetrabobo_secondchaos',x) params:set('Tetrabobo_thirdchaos',x) params:set('Tetrabobo_fourthchaos',x) end)
   params:bang()
   print("tetrabobo")
 end
@@ -68,7 +56,7 @@ end
 function shnth.major(n, z)
   if n == 1 then
     if z == 1 then
-      fisthalving = true
+      firsthalving = true
       else firsthalving = false
     end
   end
