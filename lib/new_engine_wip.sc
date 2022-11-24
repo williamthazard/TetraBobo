@@ -1,5 +1,5 @@
-	var masterrise = 0.0001;
-	var masterfall = 0.0002;
+	var masterrise = 0.001;
+	var masterfall = 0.002;
 	var chaos = 1;
 	var firsttime = 0.001;
 	var secondtime = 0.001;
