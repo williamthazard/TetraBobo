@@ -1,15 +1,5 @@
-Engine_Tetrabobo : CroneEngine {
-
-	var params;
-	var firstbar;
-	var secondbar;
-	var thirdbar;
-	var fourthbar;
-
-	alloc{
-
-	var masterrise = 0.001;
-	var masterfall = 0.002;
+	var masterrise = 0.0001;
+	var masterfall = 0.0002;
 	var chaos = 1;
 	var firsttime = 0.001;
 	var secondtime = 0.001;
@@ -18,53 +8,53 @@ Engine_Tetrabobo : CroneEngine {
 
 	var firstretrigger = Trig1.ar(
 					Pulse.ar(
-						(1/(((firsttime + masterrise) + (SineShaper.ar(EnvGen.ar(fourthshape, fourthretrigger),mul:chaos)))
-							+ ((firsttime + masterfall) + (SineShaper.ar(EnvGen.ar(fourthshape, fourthretrigger),mul:chaos))))),
+				(1/(((firsttime + masterrise) + (Pulse.ar((1/((fourthtime + masterrise) + (fourthtime + masterfall))),0.5,mul:chaos)))
+					+ ((firsttime + masterfall) + (Pulse.ar((1/((fourthtime + masterrise) + (fourthtime + masterfall))),0.5,mul:chaos))))),
 						0.5,
 						1),
 					4000.reciprocal);
 
 	var secondretrigger = Trig1.ar(
 					Pulse.ar(
-						(1/(((secondtime + masterrise) + (SineShaper.ar(EnvGen.ar(firstshape, firstretrigger),mul:chaos)))
-							+ ((secondtime + masterfall) + (SineShaper.ar(EnvGen.ar(firstshape, firstretrigger),mul:chaos))))),
+						(1/(((secondtime + masterrise) + (Pulse.ar((1/((firsttime + masterrise) + (firsttime + masterfall))),0.5,mul:chaos)))
+							+ ((secondtime + masterfall) + (Pulse.ar((1/((firsttime + masterrise) + (firsttime + masterfall))),0.5,mul:chaos))))),
 						0.5,
 						1),
 					4000.reciprocal);
 
 	var thirdretrigger = Trig1.ar(
 					Pulse.ar(
-						(1/(((thirdtime + masterrise) + (SineShaper.ar(EnvGen.ar(secondshape, secondretrigger),mul:chaos)))
-							+ ((thirdtime + masterfall) + (SineShaper.ar(EnvGen.ar(secondshape, secondretrigger),mul:chaos))))),
+						(1/(((thirdtime + masterrise) + (Pulse.ar((1/((secondtime + masterrise) + (secondtime + masterfall))),0.5,mul:chaos)))
+							+ ((thirdtime + masterfall) + (Pulse.ar((1/((secondtime + masterrise) + (secondtime + masterfall))),0.5,mul:chaos))))),
 						0.5,
 						1),
 					4000.reciprocal);
 
 	var fourthretrigger = Trig1.ar(
 					Pulse.ar(
-						(1/(((fourthtime + masterrise) + (SineShaper.ar(EnvGen.ar(thirdshape, thirdretrigger),mul:chaos)))
-							+ ((fourthtime + masterfall) + (SineShaper.ar(EnvGen.ar(thirdshape, thirdretrigger),mul:chaos))))),
+						(1/(((fourthtime + masterrise) + (Pulse.ar((1/((thirdtime + masterrise) + (thirdtime + masterfall))),0.5,mul:chaos)))
+							+ ((fourthtime + masterfall) + (Pulse.ar((1/((thirdtime + masterrise) + (thirdtime + masterfall))),0.5,mul:chaos))))),
 						0.5,
 						1),
 					4000.reciprocal);
 
 	var firstshape = Env.perc(
-					(firsttime + masterrise) + (SineShaper.ar(EnvGen.ar(fourthshape, fourthretrigger),mul:chaos)),
-					(firsttime + masterfall) + (SineShaper.ar(EnvGen.ar(fourthshape, fourthretrigger),mul:chaos)));
+			(firsttime + masterrise) + (LFTri.ar((1/((fourthtime + masterrise) + (fourthtime + masterfall))),mul:chaos)),
+			(firsttime + masterfall) + (LFTri.ar((1/((fourthtime + masterrise) + (fourthtime + masterfall))),mul:chaos)));
 
 	var secondshape = Env.perc(
-					(secondtime + masterrise) + (SineShaper.ar(EnvGen.ar(firstshape, firstretrigger),mul:chaos)),
-					(secondtime + masterfall) + (SineShaper.ar(EnvGen.ar(firstshape, firstretrigger),mul:chaos)));
-		
-	var thirdshape = Env.perc(
-					(thirdtime + masterrise) + (SineShaper.ar(EnvGen.ar(secondshape, secondretrigger),mul:chaos)),
-					(thirdtime + masterfall) + (SineShaper.ar(EnvGen.ar(secondshape, secondretrigger),mul:chaos)));
-		
-	var fourthshape = Env.perc(
-					(fourthtime + masterrise) + (SineShaper.ar(EnvGen.ar(thirdshape, thirdretrigger),mul:chaos)),
-					(fourthtime + masterfall) + (SineShaper.ar(EnvGen.ar(thirdshape, thirdretrigger),mul:chaos)));
+			(secondtime + masterrise) + (LFTri.ar((1/((firsttime + masterrise) + (firsttime + masterfall))),mul:chaos)),
+			(secondtime + masterfall) + (LFTri.ar((1/((firsttime + masterrise) + (firsttime + masterfall))),mul:chaos)));
 
-SynthDef("barone",
+	var thirdshape = Env.perc(
+			(thirdtime + masterrise) + (LFTri.ar((1/((secondtime + masterrise) + (secondtime + masterfall))),mul:chaos)),
+			(thirdtime + masterfall) + (LFTri.ar((1/((secondtime + masterrise) + (secondtime + masterfall))),mul:chaos)));
+
+	var fourthshape = Env.perc(
+			(fourthtime + masterrise) + (LFTri.ar((1/((thirdtime + masterrise) + (thirdtime + masterfall))),mul:chaos)),
+			(fourthtime + masterfall) + (LFTri.ar((1/((thirdtime + masterrise) + (thirdtime + masterfall))),mul:chaos)));
+
+a = SynthDef("barone",
 	{arg firstattack = 1,
 	firstrelease = 1,
 	firstpan = 0;
@@ -83,7 +73,7 @@ SynthDef("barone",
 	)
 }).add;
 
-SynthDef("bartwo",
+b = SynthDef("bartwo",
 	{arg secondattack = 1,
 	secondrelease = 1,
 	secondpan = 0;
@@ -102,7 +92,7 @@ SynthDef("bartwo",
 	)
 }).add;
 
-SynthDef("barthree",
+c = SynthDef("barthree",
 	{arg thirdattack = 1,
 	thirdrelease = 1,
 	thirdpan = 0;
@@ -121,7 +111,7 @@ SynthDef("barthree",
 	)
 }).add;
 
-SynthDef("barfour",
+d = SynthDef("barfour",
 	{arg fourthattack = 1,
 	fourthrelease = 1,
 	fourthpan = 0;
@@ -139,3 +129,5 @@ SynthDef("barfour",
 		fourthsignal;
 	)
 }).add;
+		
+		a.play;
