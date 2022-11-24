@@ -8,32 +8,32 @@
 
 	var firstretrigger = Trig1.ar(
 					Pulse.ar(
-				(1/(((firsttime + masterrise) + (Pulse.ar((1/((fourthtime + masterrise) + (fourthtime + masterfall))),0.5,mul:chaos)))
-					+ ((firsttime + masterfall) + (Pulse.ar((1/((fourthtime + masterrise) + (fourthtime + masterfall))),0.5,mul:chaos))))),
+				(1/(((firsttime + masterrise) + (LFTri.ar((1/((fourthtime + masterrise) + (fourthtime + masterfall))),mul:chaos)))
+					+ ((firsttime + masterfall) + (LFTri.ar((1/((fourthtime + masterrise) + (fourthtime + masterfall))),mul:chaos))))),
 						0.5,
 						1),
 					4000.reciprocal);
 
 	var secondretrigger = Trig1.ar(
 					Pulse.ar(
-						(1/(((secondtime + masterrise) + (Pulse.ar((1/((firsttime + masterrise) + (firsttime + masterfall))),0.5,mul:chaos)))
-							+ ((secondtime + masterfall) + (Pulse.ar((1/((firsttime + masterrise) + (firsttime + masterfall))),0.5,mul:chaos))))),
+						(1/(((secondtime + masterrise) + (LFTri.ar((1/((firsttime + masterrise) + (firsttime + masterfall))),mul:chaos)))
+							+ ((secondtime + masterfall) + (LFTri.ar((1/((firsttime + masterrise) + (firsttime + masterfall))),mul:chaos))))),
 						0.5,
 						1),
 					4000.reciprocal);
 
 	var thirdretrigger = Trig1.ar(
 					Pulse.ar(
-						(1/(((thirdtime + masterrise) + (Pulse.ar((1/((secondtime + masterrise) + (secondtime + masterfall))),0.5,mul:chaos)))
-							+ ((thirdtime + masterfall) + (Pulse.ar((1/((secondtime + masterrise) + (secondtime + masterfall))),0.5,mul:chaos))))),
+						(1/(((thirdtime + masterrise) + (LFTri.ar((1/((secondtime + masterrise) + (secondtime + masterfall))),mul:chaos)))
+							+ ((thirdtime + masterfall) + (LFTri.ar((1/((secondtime + masterrise) + (secondtime + masterfall))),mul:chaos))))),
 						0.5,
 						1),
 					4000.reciprocal);
 
 	var fourthretrigger = Trig1.ar(
 					Pulse.ar(
-						(1/(((fourthtime + masterrise) + (Pulse.ar((1/((thirdtime + masterrise) + (thirdtime + masterfall))),0.5,mul:chaos)))
-							+ ((fourthtime + masterfall) + (Pulse.ar((1/((thirdtime + masterrise) + (thirdtime + masterfall))),0.5,mul:chaos))))),
+						(1/(((fourthtime + masterrise) + (LFTri.ar((1/((thirdtime + masterrise) + (thirdtime + masterfall))),mul:chaos)))
+							+ ((fourthtime + masterfall) + (LFTri.ar((1/((thirdtime + masterrise) + (thirdtime + masterfall))),mul:chaos))))),
 						0.5,
 						1),
 					4000.reciprocal);
