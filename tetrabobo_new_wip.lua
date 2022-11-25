@@ -2,6 +2,7 @@
 
 _lfos = require 'lfo'
 Tetrabobo = include('lib/Tetrabobo_engine')
+engine.name = 'Tetrabobo'
 sh = hid.connect(1)
 if sh.device then
   shnth = include("shnth/lib/shnth")
@@ -83,7 +84,7 @@ function shnth.bar(n, d)
         if firstdoubling then 
           params:set('Tetrabobo_time_0',(params:get('Tetrabobo_time_0')*2))
           Tetrabobo.trig(util.linlin(-1,1,0.03,2,d), 1)
-          params:set('Tetrabobo_firsttime',(params:get('Tetrabobo_time_0')/2))
+          params:set('Tetrabobo_time_0',(params:get('Tetrabobo_time_0')/2))
         elseif firsthalving then
           params:set('Tetrabobo_time_0',(params:get('Tetrabobo_time_0')/2))
           Tetrabobo.trig(util.linlin(-1,1,0.03,2,d), 1)
