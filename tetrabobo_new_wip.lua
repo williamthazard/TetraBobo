@@ -1,6 +1,5 @@
 ---TetraBobo
 
-_lfos = require 'lfo'
 Tetrabobo = include('lib/Tetrabobo_engine')
 engine.name = 'Tetrabobo'
 sh = hid.connect(1)
