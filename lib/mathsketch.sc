@@ -2,6 +2,7 @@ m = SynthDef("mathy",
 	{
 	arg risetime = 0.001135,
 	falltime = 0.001135,
+	time = 0.00227,
 	attack = 1,
 	release = 1;
 
@@ -11,9 +12,9 @@ m = SynthDef("mathy",
 					level: 1
 				).kr(doneAction:2);
 
-	var retrigger = Trig1.ar(Pulse.ar((1/(risetime + falltime)), 0.5, 1), 4000.reciprocal);
+	var retrigger = Trig1.ar(Pulse.ar((1/(risetime + falltime + (2 * time))), 0.5, 1), 4000.reciprocal);
 
-	var shape = Env.perc(risetime, falltime, 1);
+	var shape = Env.perc(risetime + time, falltime + time, 1);
 
 	var signal = Pan2.ar(SineShaper.ar(EnvGen.ar(shape, retrigger),mul:amp_env));
 
