@@ -30,20 +30,17 @@ function shnth.major(n, z)
       firstdoubling = true
       else firstdoubling = false
     end
-  end
-  if n == 2 then
+  elseif n == 2 then
     if z == 1 then
       seconddoubling = true
       else seconddoubling = false
     end
-  end
-  if n == 3 then
+  elseif n == 3 then
     if z == 1 then
       thirddoubling = true
       else thirddoubling = false
     end
-  end
-  if n == 4 then
+  elseif n == 4 then
     if z == 1 then
       fourthdoubling = true
       else fourthdoubling = false
@@ -57,20 +54,17 @@ function shnth.minor(n, z)
       firsthalving = true
       else firsthalving = false
     end
-  end
-  if n == 2 then
+  elseif n == 2 then
     if z == 1 then
       secondhalving = true
       else secondhalving = false
     end
-  end
-  if n == 3 then
+  elseif n == 3 then
     if z == 1 then
       thirdhalving = true
       else thirdhalving = false
     end
-  end
-  if n == 4 then
+  elseif n == 4 then
     if z == 1 then
       fourthhalving = true
       else fourthhalving = false
