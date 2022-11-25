@@ -1,12 +1,15 @@
 Engine_Tetrabobo : CroneEngine {
 
+var retrig;
+var shapes;
+
 	alloc {
-	
-var retrig = Bus.audio(numChannels:4);
+
 var time = [0.001, 0.001, 0.001, 0.001];
 var pan = [0, 0, 0, 0];
 var params;
-var shapes;
+
+retrig = Bus.audio(numChannels:4);
 
 SynthDef("Retrig", {
   arg rise=0.001, fall=0.001, chaos=1, retrigBus;
@@ -36,8 +39,6 @@ SynthDef("Bar", {
 
 shapes = Synth.new("Retrig", [\retrigBus, retrig]);
 
-Synth.after(shapes, "Bar", [\i, 0, \retrig, retrig]);
-
 		params = Dictionary.newFrom([
 \rise, 0.001,
 \fall, 0.001,
@@ -47,19 +48,27 @@ Synth.after(shapes, "Bar", [\i, 0, \retrig, retrig]);
 params.keysDo({ arg key;
 			this.addCommand(key, "f", { arg msg;
 				params[key] = msg[1];
+				shapes.set(key.asSymbol, msg[1])
 			});
 		});
 
 4.do({arg i;
 	this.addCommand("trig_"++i, "f", { arg msg;
-		Synth.after("Bar", [\time, time, \i, i, \pan, pan[i], \atk, msg[1], \rel, msg[1]] ++ params.getPairs)
+		Synth.after(shapes, "Bar", [\time, time, \i, i, \pan, pan[i], \atk, msg[1], \rel, msg[1]] ++ params.getPairs)
 		});
 	this.addCommand("time_"++i, "f", { arg msg;
-		time[i] = msg[1]
+		time[i] = msg[1];
+		shapes.set(\time, time)
 	});
 	this.addCommand("pan_"++i, "f", { arg msg;
 		pan[i] = msg[1]
 	});
 })		
 	}
+	
+	free {
+	retrig.free;
+	shapes.free;
+	}
+	
 }
