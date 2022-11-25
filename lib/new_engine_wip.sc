@@ -53,8 +53,4 @@ params.keysDo({ arg key;
 	});
 })		
 	}
-	
-	free {
-	}
-	
 }
