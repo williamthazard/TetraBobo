@@ -1,8 +1,8 @@
 m = SynthDef("mathy",
 	{
-	arg risetime = 0.001135,
-	falltime = 0.001135,
-	time = 0.00227,
+	arg risetime = 0.0005675,
+	falltime = 0.0005675,
+	time = 0.001135,
 	attack = 1,
 	release = 1;
 
