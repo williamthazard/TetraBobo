@@ -24,4 +24,3 @@ m = SynthDef("mathy",
 }).add;
 
 m.play;
-	
