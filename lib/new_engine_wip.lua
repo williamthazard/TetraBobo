@@ -41,7 +41,6 @@ function Tetrabobo.add_params()
 end
 
 -- a single-purpose triggering command fire a note
-
 function Tetrabobo.trig(d, n)
   if d ~= nil then
     if n == 1 then
