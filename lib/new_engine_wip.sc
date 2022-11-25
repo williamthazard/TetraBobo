@@ -1,133 +1,60 @@
-	var masterrise = 0.001;
-	var masterfall = 0.002;
-	var chaos = 1;
-	var firsttime = 0.001;
-	var secondtime = 0.001;
-	var thirdtime = 0.001;
-	var fourthtime = 0.001;
+local Tetrabobo = {}
+local Formatters = require 'formatters'
 
-	var firstretrigger = Trig1.ar(
-					Pulse.ar(
-				(1/(((firsttime + masterrise) + (LFTri.ar((1/((fourthtime + masterrise) + (fourthtime + masterfall))),mul:chaos)))
-					+ ((firsttime + masterfall) + (LFTri.ar((1/((fourthtime + masterrise) + (fourthtime + masterfall))),mul:chaos))))),
-						0.5,
-						1),
-					4000.reciprocal);
+-- first, we'll collect all of our commands into norns-friendly ranges
+local specs = {
+  ["rise"] = controlspec.new(0.00005, 0.03125, 'lin', 0.00001, 0.001135, ''),
+  ["fall"] = controlspec.new(0.00005, 0.03125, 'lin', 0.00001, 0.001135, ''),
+  ["chaos"] = controlspec.new(-24, 24, 'lin', 0, 0, ''),
+}
 
-	var secondretrigger = Trig1.ar(
-					Pulse.ar(
-						(1/(((secondtime + masterrise) + (LFTri.ar((1/((firsttime + masterrise) + (firsttime + masterfall))),mul:chaos)))
-							+ ((secondtime + masterfall) + (LFTri.ar((1/((firsttime + masterrise) + (firsttime + masterfall))),mul:chaos))))),
-						0.5,
-						1),
-					4000.reciprocal);
+-- this table establishes an order for parameter initialization:
+local param_names = {"rise","fall","chaos"}
 
-	var thirdretrigger = Trig1.ar(
-					Pulse.ar(
-						(1/(((thirdtime + masterrise) + (LFTri.ar((1/((secondtime + masterrise) + (secondtime + masterfall))),mul:chaos)))
-							+ ((thirdtime + masterfall) + (LFTri.ar((1/((secondtime + masterrise) + (secondtime + masterfall))),mul:chaos))))),
-						0.5,
-						1),
-					4000.reciprocal);
+for i = 0,3 do
+  table.insert(specs, "time_" .. i)
+  specs["time_" .. i] = controlspec.new(0.00005, 0.03125, 'lin', 0.00001, 0.001135, 's')
+  table.insert(specs, "pan_" .. i)
+  specs["pan_" .. i] = controlspec.PAN
+  table.insert(param_names, "time_" .. i)
+  table.insert(param_names, "pan_" .. i)
+end
 
-	var fourthretrigger = Trig1.ar(
-					Pulse.ar(
-						(1/(((fourthtime + masterrise) + (LFTri.ar((1/((thirdtime + masterrise) + (thirdtime + masterfall))),mul:chaos)))
-							+ ((fourthtime + masterfall) + (LFTri.ar((1/((thirdtime + masterrise) + (thirdtime + masterfall))),mul:chaos))))),
-						0.5,
-						1),
-					4000.reciprocal);
+-- initialize parameters:
+function Tetrabobo.add_params()
+  params:add_group("Tetrabobo",#param_names)
 
-	var firstshape = Env.perc(
-			(firsttime + masterrise) + (LFTri.ar((1/((fourthtime + masterrise) + (fourthtime + masterfall))),mul:chaos)),
-			(firsttime + masterfall) + (LFTri.ar((1/((fourthtime + masterrise) + (fourthtime + masterfall))),mul:chaos)));
+  for i = 1,#param_names do
+    local p_name = param_names[i]
+    params:add{
+      type = "control",
+      id = "Tetrabobo_"..p_name,
+      name = p_name,
+      controlspec = specs[p_name],
+      formatter = util.string_starts(p_name,"pan") and Formatters.bipolar_as_pan_widget or nil,
+      -- every time a parameter changes, we'll send it to the SuperCollider engine:
+      action = function(x) engine[p_name](x) end
+    }
+  end
+  
+  params:bang()
+end
 
-	var secondshape = Env.perc(
-			(secondtime + masterrise) + (LFTri.ar((1/((firsttime + masterrise) + (firsttime + masterfall))),mul:chaos)),
-			(secondtime + masterfall) + (LFTri.ar((1/((firsttime + masterrise) + (firsttime + masterfall))),mul:chaos)));
+-- a single-purpose triggering command fire a note
 
-	var thirdshape = Env.perc(
-			(thirdtime + masterrise) + (LFTri.ar((1/((secondtime + masterrise) + (secondtime + masterfall))),mul:chaos)),
-			(thirdtime + masterfall) + (LFTri.ar((1/((secondtime + masterrise) + (secondtime + masterfall))),mul:chaos)));
+function Tetrabobo.trig(d, n)
+  if d ~= nil then
+    if n == 1 then
+    engine.trig_0(d)
+    elseif n == 2 then
+      engine.trig_1(d)
+    elseif n == 3 then
+      engine.trig_2(d)
+    elseif n == 4 then
+      engine.trig_3(d)
+    end
+  end
+end
 
-	var fourthshape = Env.perc(
-			(fourthtime + masterrise) + (LFTri.ar((1/((thirdtime + masterrise) + (thirdtime + masterfall))),mul:chaos)),
-			(fourthtime + masterfall) + (LFTri.ar((1/((thirdtime + masterrise) + (thirdtime + masterfall))),mul:chaos)));
-
-a = SynthDef("barone",
-	{arg firstattack = 1,
-	firstrelease = 1,
-	firstpan = 0;
-
-	var firstamp_env = Env.perc(
-					attackTime: firstattack,
-					releaseTime: firstrelease,
-					level: 1
-				).kr(doneAction:2);
-
-	var firstsignal = Pan2.ar(SineShaper.ar(EnvGen.ar(firstshape, firstretrigger),mul:firstamp_env),firstpan);
-
-	Out.ar(
-		0,
-		firstsignal;
-	)
-}).add;
-
-b = SynthDef("bartwo",
-	{arg secondattack = 1,
-	secondrelease = 1,
-	secondpan = 0;
-
-	var secondamp_env = Env.perc(
-					attackTime: secondattack,
-					releaseTime: secondrelease,
-					level: 1
-				).kr(doneAction:2);
-
-	var secondsignal = Pan2.ar(SineShaper.ar(EnvGen.ar(secondshape, secondretrigger),mul:secondamp_env),secondpan);
-
-	Out.ar(
-		0,
-		secondsignal;
-	)
-}).add;
-
-c = SynthDef("barthree",
-	{arg thirdattack = 1,
-	thirdrelease = 1,
-	thirdpan = 0;
-
-	var thirdamp_env = Env.perc(
-					attackTime: thirdattack,
-					releaseTime: thirdrelease,
-					level: 1
-				).kr(doneAction:2);
-
-	var thirdsignal = Pan2.ar(SineShaper.ar(EnvGen.ar(thirdshape, thirdretrigger),mul:thirdamp_env),thirdpan);
-
-	Out.ar(
-		0,
-		thirdsignal;
-	)
-}).add;
-
-d = SynthDef("barfour",
-	{arg fourthattack = 1,
-	fourthrelease = 1,
-	fourthpan = 0;
-
-	var fourthamp_env = Env.perc(
-					attackTime: fourthattack,
-					releaseTime: fourthrelease,
-					level: 1
-				).kr(doneAction:2);
-
-	var fourthsignal = Pan2.ar(SineShaper.ar(EnvGen.ar(fourthshape, fourthretrigger),mul:fourthamp_env),fourthpan);
-
-	Out.ar(
-		0,
-		fourthsignal;
-	)
-}).add;
-		
-		a.play;
+ -- we return these engine-specific Lua functions back to the host script:
+return Tetrabobo
