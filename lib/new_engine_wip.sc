@@ -5,6 +5,8 @@ Engine_Tetrabobo : CroneEngine {
 var retrig = Bus.audio(numChannels:4);
 var time = [0.001, 0.001, 0.001, 0.001];
 var pan = [0, 0, 0, 0];
+var params;
+var shapes;
 
 SynthDef("Retrig", {
   arg rise=0.001, fall=0.001, chaos=1, retrigBus;
@@ -32,7 +34,7 @@ SynthDef("Bar", {
   Out.ar(0, sig);
 }).add;
 
-var shapes = Synth.new("Retrig", [\retrigBus, retrig]);
+shapes = Synth.new("Retrig", [\retrigBus, retrig]);
 
 Synth.after(shapes, "Bar", [\i, 0, \retrig, retrig]);
 
