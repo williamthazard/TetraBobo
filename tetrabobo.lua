@@ -50,13 +50,13 @@ function shnth.bar(n, d)
       if n==i then
         if doubling[i] then
           params:set('Tetrabobo_time_' .. (i - 1),(params:get('Tetrabobo_time_' .. (i - 1))*2))
-          Tetrabobo.trig(util.linlin(-1,1,0.03,2,d),i)
+          Tetrabobo.trig(util.linlin(-1,1,0.03,1,d),i)
           params:set('Tetrabobo_time_' .. (i - 1),(params:get('Tetrabobo_time_' .. (i - 1))/2))
         elseif halving[i] then
           params:set('Tetrabobo_time_' .. (i - 1),(params:get('Tetrabobo_time_' .. (i - 1))/2))
-          Tetrabobo.trig(util.linlin(-1,1,0.03,2,d),i)
+          Tetrabobo.trig(util.linlin(-1,1,0.03,1,d),i)
           params:set('Tetrabobo_time_' .. (i - 1),(params:get('Tetrabobo_time_' .. (i - 1))*2))
-          else Tetrabobo.trig(util.linlin(-1,1,0.03,2,d),i)
+          else Tetrabobo.trig(util.linlin(-1,1,0.03,1,d),i)
         end
       end
     end
