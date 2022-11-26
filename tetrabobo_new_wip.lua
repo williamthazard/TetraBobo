@@ -12,15 +12,6 @@ end
 doubling = {}
 halving = {}
 
-firstdoubling = false
-firsthalving = false
-seconddoubling = false
-secondhalving = false
-thirddoubling = false
-thirdhalving = false
-fourthdoubling = false
-fourthhalving = false
-
 for i=1,4 do
   doubling[i] = false
   halving[i] = false
