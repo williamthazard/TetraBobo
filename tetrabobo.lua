@@ -11,10 +11,12 @@ end
 
 doubling = {}
 halving = {}
+going = {}
 
 for i=1,4 do
   doubling[i] = false
   halving[i] = false
+  going[i] = false
 end
 
 function init()
@@ -48,17 +50,28 @@ function shnth.bar(n, d)
   if d > 0.2 or d < -0.2 then
     for i=1,4 do
       if n==i then
+        if going[i]==false then
         if doubling[i] then
           params:set('Tetrabobo_time_' .. (i - 1),(params:get('Tetrabobo_time_' .. (i - 1))*2))
           Tetrabobo.trig(util.linlin(-1,1,0.03,1,d),i)
           params:set('Tetrabobo_time_' .. (i - 1),(params:get('Tetrabobo_time_' .. (i - 1))/2))
+          going[i] = true
+          clock.sleep(d*2)
+          going[i] = false
         elseif halving[i] then
           params:set('Tetrabobo_time_' .. (i - 1),(params:get('Tetrabobo_time_' .. (i - 1))/2))
           Tetrabobo.trig(util.linlin(-1,1,0.03,1,d),i)
           params:set('Tetrabobo_time_' .. (i - 1),(params:get('Tetrabobo_time_' .. (i - 1))*2))
+          going[i] = true
+          clock.sleep(d*2)
+          going[i] = false
           else Tetrabobo.trig(util.linlin(-1,1,0.03,1,d),i)
+          going[i] = true
+          clock.sleep(d*2)
+          going[i] = false
         end
       end
     end
   end
+end
 end
