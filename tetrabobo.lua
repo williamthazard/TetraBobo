@@ -56,18 +56,18 @@ function shnth.bar(n, d)
           Tetrabobo.trig(util.linlin(-1,1,0.03,1,d),i)
           params:set('Tetrabobo_time_' .. (i - 1),(params:get('Tetrabobo_time_' .. (i - 1))/2))
           going[i] = true
-          clock.sleep(d*2)
+          clock.sleep(util.linlin(-1,1,0.03,1,d)*2)
           going[i] = false
         elseif halving[i] then
           params:set('Tetrabobo_time_' .. (i - 1),(params:get('Tetrabobo_time_' .. (i - 1))/2))
           Tetrabobo.trig(util.linlin(-1,1,0.03,1,d),i)
           params:set('Tetrabobo_time_' .. (i - 1),(params:get('Tetrabobo_time_' .. (i - 1))*2))
           going[i] = true
-          clock.sleep(d*2)
+          clock.sleep(util.linlin(-1,1,0.03,1,d)*2)
           going[i] = false
           else Tetrabobo.trig(util.linlin(-1,1,0.03,1,d),i)
           going[i] = true
-          clock.sleep(d*2)
+          clock.sleep(util.linlin(-1,1,0.03,1,d)*2)
           going[i] = false
         end
       end
