@@ -2,10 +2,10 @@
 
 triangle wave organ with variable slope for norns & shbobo shnth
 
-E1: master chaos (circular FM)
-E2: master rise time
-E3: master fall time
-
+E1: master chaos (circular FM)<br>
+E2: master rise time<br>
+E3: master fall time<br>
+<br><br>
 K1: hold for fine tuning
 K2: alt behavior for E2 & E3
 K3: alt behavior for E2 & E3
