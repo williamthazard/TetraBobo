@@ -16,6 +16,7 @@ K3 + E2: bar 2 time (pitch)<br>
 K3 + E3: bar 3 time (pitch)<br>
 <br>
 master rise + master fall + bar time = pitch<br>
+<br>
 shnth minors halve the time of their corresponding bars (which doubles their pitch)<br>
 <br>
 shnth majors double the time of their corresponding bars (which halves their pitch)<br>
