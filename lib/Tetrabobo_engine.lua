@@ -5,7 +5,7 @@ local Formatters = require 'formatters'
 local specs = {
   ["rise"] = controlspec.new(0.00005, 0.03125, 'lin', 0.00001, 0.001135, 's'),
   ["fall"] = controlspec.new(0.00005, 0.03125, 'lin', 0.00001, 0.001135, 's'),
-  ["chaos"] = controlspec.new(-24, 24, 'lin', 0, 0, ''),
+  ["chaos"] = controlspec.def{min = -100, max = 100, warp = 'lin', step = 0.01, default = 0, units = '', quantum = 0.01, wrap = false},
 }
 
 -- this table establishes an order for parameter initialization:
@@ -33,7 +33,7 @@ function Tetrabobo.add_params()
       controlspec = specs[p_name],
       formatter = util.string_starts(p_name,"pan") and Formatters.bipolar_as_pan_widget or nil,
       -- every time a parameter changes, we'll send it to the SuperCollider engine:
-      action = function(x) engine[p_name](x) end
+      action = function(x) engine[p_name](x) redraw() end
     }
   end
   
