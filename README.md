@@ -3,6 +3,7 @@
 triangle wave organ with variable slope for norns & shbobo shnth<br>
 <br>
 <i>note: you'll have to restart norns after installing this script in order for the engine to install</i><br>
+<br>
 E1: master chaos (circular FM)<br>
 E2: master rise time<br>
 E3: master fall time<br>
