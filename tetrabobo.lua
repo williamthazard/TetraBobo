@@ -19,11 +19,9 @@
 ---
 ---shnth minors halve the time
 ---of their corresponding bars
----(which doubles their pitch)
 ---
 ---shnth majors double the time
 ---of their corresponding bars
----(which halves their pitch)
 ---
 ---version 1.0.0
 
