@@ -19,8 +19,8 @@ K3 + E3: bar 3 time (pitch)<br>
 <br>
 master rise + master fall + bar time = pitch<br>
 <br>
-shnth minors halve the time of their corresponding bars (which doubles their pitch)<br>
+shnth minors halve the time of their corresponding bars<br>
 <br>
-shnth majors double the time of their corresponding bars (which halves their pitch)<br>
+shnth majors double the time of their corresponding bars<br>
 <br>
 chaos, master rise, master fall, and each bar's time can be modulated with LFOs in the parameters menu
