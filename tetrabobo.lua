@@ -23,7 +23,7 @@
 ---shnth majors double the time
 ---of their corresponding bars
 ---
----version 1.0.0
+---version 1.0.1
 
 Tetrabobo = include('lib/Tetrabobo_engine')
 engine.name = 'Tetrabobo'
@@ -227,7 +227,7 @@ function redraw()
   end
   screen.move(0,5)
   screen.text("rise: " .. params:get('Tetrabobo_rise'))
-  screen.move(64,5)
+  screen.move(76,5)
   screen.text("fall: " .. params:get('Tetrabobo_fall'))
   if bars_1 then 
     screen.level(10)
